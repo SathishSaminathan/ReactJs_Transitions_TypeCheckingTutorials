@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import Transition from "react-transition-group/Transition";
+import { Transition } from "react-transition-group";
 
 import "../css/App.css";
 
@@ -13,7 +13,6 @@ class TransitionComp extends Component {
     this.setState({
       show: !this.state.show
     });
-    return this.state.show;
   };
   render() {
     return (
