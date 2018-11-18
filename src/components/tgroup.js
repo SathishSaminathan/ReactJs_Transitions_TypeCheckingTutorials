@@ -1,49 +1,63 @@
-import React, { Component } from 'react';
-import '../css/App.css';
+import React, { Component } from "react";
 
-class Slide extends Component{
-    state = {
-        items:[]
-    }
-    
-    addElements () {
-        return this.state.items.map((item,i) => (
-            <div className="item" key={i}>{item}</div>
-        ));
-    }
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
-    generateNumber(){
-        //let random = Math.floor(Math.random() * 100) + 1;
-        let newArray = [...this.state.items,Math.floor(Math.random() * 100) + 1]
+import "../css/App.css";
 
-        this.setState({
-            items:newArray
-        })
-    }
+class Slide extends Component {
+  state = {
+    items: []
+  };
 
-    removeNumber(){
-        let newArray = this.state.items.slice(0,-1);
-        this.setState({
-            items:newArray
-        })
-    }
+  addElements() {
+    return this.state.items.map((item, i) => (
+      <CSSTransition
+        classNames="item"
+        timeout={500}
+        key={i}
+        onEntered={(node)=>{
+            node.classList.add("active")
+        }}
+      >
+        <div className="item" key={i}>
+          {item}
+        </div>
+      </CSSTransition>
+    ));
+  }
 
-    render(){
-        return(
-            <div>
-                {this.addElements()}
-             
-                <div className="btns">
-                    <div className="btn-add" onClick={()=> this.generateNumber()}>Add Elements</div>
-                    <div className="btn-remove" onClick={()=> this.removeNumber()}>Remove Elements</div>
-                </div>
-            </div>
-        )
-    }
+  generateNumber() {
+    //let random = Math.floor(Math.random() * 100) + 1;
+    let newArray = [...this.state.items, Math.floor(Math.random() * 100) + 1];
 
+    this.setState({
+      items: newArray
+    });
+  }
 
+  removeNumber() {
+    let newArray = this.state.items.slice(0, -1);
+    this.setState({
+      items: newArray
+    });
+  }
 
+  render() {
+    return (
+      <div>
+        <TransitionGroup component="div" className="list">{this.addElements()}</TransitionGroup>
+
+        <div className="btns">
+          <div className="btn-add" onClick={() => this.generateNumber()}>
+            Add Elements
+          </div>
+          <div className="btn-remove" onClick={() => this.removeNumber()}>
+            Remove Elements
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
-
 
 export default Slide;
